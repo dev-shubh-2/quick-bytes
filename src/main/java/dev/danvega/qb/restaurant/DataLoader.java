@@ -43,7 +43,7 @@ public class DataLoader implements CommandLineRunner {
             log.info("  → Loaded {} restaurants", restaurants.size());
 
             // Load menu items using Jackson 3's JsonMapper
-            ClassPathResource menuItemsResource = new ClassPathResource("data/menu-items.json");
+            var menuItemsResource = new ClassPathResource("data/menu-items.json");
             List<MenuItem> menuItemList = jsonMapper.readValue(menuItemsResource.getInputStream(), new TypeReference<>() {});
             menuItemList.forEach(m -> menuItems.put(m.id(), m));
             log.info("  → Loaded {} menu items", menuItems.size());

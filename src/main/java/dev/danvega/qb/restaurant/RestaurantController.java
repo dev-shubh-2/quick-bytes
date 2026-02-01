@@ -4,10 +4,7 @@ import dev.danvega.qb.order.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.Duration;
@@ -35,6 +32,29 @@ public class RestaurantController {
     @GetMapping("/")
     public List<Restaurant> findAllRestaurants() {
         return restaurantService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Restaurant> findById(@PathVariable String id) {
+        Restaurant restaurant = restaurantService.findById(id);
+        if (restaurant == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(restaurant);
+    }
+
+    @PostMapping
+    public Restaurant create(@RequestBody Restaurant restaurant) {
+        return restaurantService.create(restaurant);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Restaurant> update(@PathVariable String id, @RequestBody Restaurant restaurant) {
+        Restaurant updated = restaurantService.update(id, restaurant);
+        if (updated == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updated);
     }
 
     @GetMapping("/{restaurantId}/menu")

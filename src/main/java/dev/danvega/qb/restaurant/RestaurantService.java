@@ -65,6 +65,25 @@ public class RestaurantService {
         return dataLoader.getRestaurants().values().stream().toList();
     }
 
+    public Restaurant findById(String id) {
+        return dataLoader.getRestaurant(id);
+    }
+
+    public Restaurant create(Restaurant restaurant) {
+        dataLoader.getRestaurants().put(restaurant.id(), restaurant);
+        return restaurant;
+    }
+
+    public Restaurant update(String id, Restaurant restaurant) {
+        if (!dataLoader.getRestaurants().containsKey(id)) {
+            return null;
+        }
+        Restaurant updated = new Restaurant(id, restaurant.name(), restaurant.cuisine(),
+                restaurant.rating(), restaurant.address(), restaurant.menuItemIds());
+        dataLoader.getRestaurants().put(id, updated);
+        return updated;
+    }
+
 
     private void simulateDelay(Duration duration) {
         try {
